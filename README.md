@@ -24,19 +24,62 @@ cd Detect_emotion
 
 - Second, unzip le model.zip
 ```shell
-unzip model.zip -d .
+unzip model.h5.zip -d .
 ```
 - Troisieme, lancer sur jupyter-notebook le fichier app-detect_emotion.ipynb
 
 ```shell
 jupyter-notebook
 ```
-selectionner app-detect_emotion.ipynb
+selectionner **app-detect_emotion.ipynb**
 puis lancer le programme 
 
-## Reseau de neurone 
+## Entrainement du model
 ---
+- Premier, telecharger les données [ ici](https://drive.google.com/file/d/1VOnamgj5pOwQL7FM3Hww6p03O-9EfQVy/view?usp=sharing) 
+<br><br>
+- Seconde mettre le fichier **RN-detect_emotion.ipynb** et les donnée sur [google drive](https://www.google.com/intl/fr_tg/drive/)
+<br><br>
+- Troisieme sur lancer le fichier **RN-detect_emotion.ipynb**
+sur google colab <br>
+```text
+Clique droit sur le fichier
+Ouvrir avec
+Google colab
+```
+- Quatrième, activer le GPU
+```text
+Edit 
+Notebook settings
+Selectioner GPU
+```
+- Cinquième lancer le nootebook
+```text
+Runtime
+run all
+```
+---
+## Reseau de neurone 
+```python
+batch_size = 128
+num_epoch = 60
 
 
+model = Sequential()
 
+model.add(Conv2D(128, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
+model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
 
+model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Flatten())
+model.add(Dense(1024, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(num_categories, activation='softmax'))
+```
